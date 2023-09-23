@@ -25,15 +25,3 @@ export async function getEntries(query) {
 export async function getConfig() {
   return await getEntry(config.configId);
 }
-
-// const client = contentful.createClient({
-//   // This is the space ID. A space is like a project folder in Contentful terms
-//   space: "ixag5qb4t22m",
-//   // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
-//   accessToken: "nfsG9YP5teGkDu1pFeB_J0ARMdHjpPcTY1gDm-adenE",
-// });
-// // This API call will request an entry with the specified ID from the space defined at the top, using a space-specific access token
-// client
-//   .getEntry("CLf93ZUT2Qa3efQGUa6jk")
-//   .then((entry) => console.log(entry))
-//   .catch((err) => console.log(err));
