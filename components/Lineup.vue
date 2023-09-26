@@ -25,6 +25,9 @@ import { NCard, NAvatar, NButton } from "naive-ui";
 import { getEntry, getEntries } from "../contentful/contentfulAPI";
 const handleArtist = (e) => {
   console.log(e);
+  navigateTo({
+    path: "./program",
+  });
 };
 const artists = reactive([]);
 const getLineup = async () => {

@@ -1,0 +1,3 @@
+<template>
+  <Lineup></Lineup>
+</template>
