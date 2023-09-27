@@ -1,8 +1,8 @@
 <template>
   <div>
     <table>
-      <tr v-for="(row, rowIndex) in getData()" :key="rowIndex">
-        <td>{{ row }}</td>
+      <tr v-for="(row, rowIndex) in props.lineup" :key="rowIndex">
+        <td><Card :content="row"></Card></td>
       </tr>
     </table>
   </div>
@@ -12,8 +12,5 @@
 const props = defineProps({
   lineup: Object,
 });
-const getData = () => {
-  return props.lineup;
-};
 </script>
 <style></style>
