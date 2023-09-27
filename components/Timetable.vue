@@ -1,8 +1,8 @@
 <template>
-  <n-tabs type="segment">
+  <n-tabs type="segment" :default-value="0">
     <n-tab-pane
-      v-for="date in getFestivalDates()"
-      :name="getWeekday(date)"
+      v-for="(date, dateIndex) in getFestivalDates()"
+      :name="dateIndex"
       :tab="getWeekday(date)"
     >
       <Grid
@@ -17,10 +17,7 @@
 import { getEntry, getEntries } from "../contentful/contentfulAPI";
 import { NTabs, NTabPane } from "naive-ui";
 let lineup = reactive([]);
-let newArray = reactive([]);
-watch(lineup, () => {
-  sortByDate();
-});
+
 const getLineup = async () => {
   const result = await getEntries();
   result.map((e) => {
@@ -34,21 +31,12 @@ const sortByDate = () => {
     return dateA - dateB;
   });
 };
-const getFestivalDays = () => {
-  const weekDays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
-  const festivalDays = [
-    ...new Set(
-      lineup.map(
-        (obj) => weekDays[new Date(obj.showDatetime.split("T")[0]).getDay()]
-      )
-    ),
-  ];
-  return festivalDays;
-};
+
 const getFestivalDates = () => {
   const festivalDates = [
     ...new Set(lineup.map((obj) => obj.showDatetime.split("T")[0])),
   ];
+
   return festivalDates;
 };
 
@@ -61,5 +49,8 @@ const getWeekday = (dateString) => {
 const getLineupAtDate = (date) => {
   return lineup.filter((obj) => obj.showDatetime.startsWith(date));
 };
-getLineup();
+
+getLineup().then(() => {
+  sortByDate();
+});
 </script>
