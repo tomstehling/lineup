@@ -17,3 +17,8 @@ const getTimeSlot = (dateString) => {
   return dateString.split("T")[1];
 };
 </script>
+<style>
+.n-card {
+  width: fit-content;
+}
+</style>
