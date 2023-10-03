@@ -7,11 +7,18 @@
       <n-button
         @click="
           () => {
-            $emit('addToWishList', { ...props.content });
-            isActive = !isActive;
+            if (!checkWishlist({ ...props.content })) {
+              addWishlist({ ...props.content });
+            } else if (checkWishlist({ ...props.content })) {
+              removeWishlist({ ...props.content });
+            }
           }
         "
-        >{{ isActive ? "Remove from Wishlist" : "Add to Wishlist" }}</n-button
+        >{{
+          checkWishlist({ ...props.content })
+            ? "Remove from Wishlist"
+            : "Add to Wishlist"
+        }}</n-button
       ></template
     >
   </n-card>
@@ -23,9 +30,9 @@ import { inject } from "vue";
 const props = defineProps({
   content: Object,
 });
-const { wishlist, addWishlist, removeWishlist } = inject("wishlist");
+const { getWishlist, addWishlist, removeWishlist, checkWishlist } =
+  inject("wishlist");
 
-const isActive = ref(false);
 const getTimeSlot = (dateString) => {
   return dateString.split("T")[1];
 };
