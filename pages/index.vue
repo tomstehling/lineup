@@ -1,20 +1,20 @@
 <template>
-  <Switcher
-    :showWishlist="showWishlist"
-    @switcher="showWishlist = !showWishlist"
-    class="switcher"
-  ></Switcher>
-  <div v-if="isLoading">..loading</div>
-  <div v-else>
-    <Timetable
-      :lineup="showWishlist ? getWishlist() : lineup"
-      @addToWishList="
-        (obj) => {
-          wishlist.add(obj);
-        }
-      "
-      class="timetable"
-    ></Timetable>
+  <div id="index">
+    <div class="scroll">
+      <Switcher
+        :showWishlist="showWishlist"
+        @switcher="showWishlist = !showWishlist"
+        class="switcher"
+      ></Switcher>
+      <div v-if="isLoading">..loading</div>
+      <div v-else>
+        <Timetable
+          :lineup="lineup"
+          :showWishlist="showWishlist"
+          class="timetable"
+        ></Timetable>
+      </div>
+    </div>
   </div>
 </template>
 <script setup>
@@ -24,32 +24,7 @@ import { provide, ref } from "vue";
 let isLoading = ref(true);
 const showWishlist = ref(false);
 const lineup = reactive([]);
-const wishlist = reactive(new Set());
-const getWishlist = () => {
-  const wishlistArray = Array.from(wishlist).map((e) => JSON.parse(e));
-  return wishlistArray;
-};
-const addWishlist = (obj) => {
-  const objString = JSON.stringify(obj);
-  wishlist.add(objString);
-};
-const removeWishlist = (obj) => {
-  const objString = JSON.stringify(obj);
-  wishlist.delete(objString);
-};
-const checkWishlist = (obj) => {
-  const objString = JSON.stringify(obj);
-  if (wishlist.has(objString)) {
-    return true;
-  } else return false;
-};
 
-provide("wishlist", {
-  getWishlist,
-  addWishlist,
-  removeWishlist,
-  checkWishlist,
-});
 const getLineup = async () => {
   try {
     const result = await getEntries();
@@ -65,12 +40,77 @@ onMounted(() => {
 });
 </script>
 <style>
-.switcher {
+.scroll {
+  overflow: auto;
+  height: 100%;
   width: 50%;
   left: 25%;
+  position: relative;
 }
-.timetable {
-  width: 50%;
-  left: 25%;
+
+.switcher {
+  position: sticky;
+  top: 0;
+}
+#index {
+  position: fixed; /* or absolute */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image: linear-gradient(
+      30deg,
+      #72759d 12%,
+      transparent 12.5%,
+      transparent 87%,
+      #72759d 87.5%,
+      #72759d
+    ),
+    linear-gradient(
+      150deg,
+      #72759d 12%,
+      transparent 12.5%,
+      transparent 87%,
+      #72759d 87.5%,
+      #72759d
+    ),
+    linear-gradient(
+      30deg,
+      #72759d 12%,
+      transparent 12.5%,
+      transparent 87%,
+      #72759d 87.5%,
+      #72759d
+    ),
+    linear-gradient(
+      150deg,
+      #72759d 12%,
+      transparent 12.5%,
+      transparent 87%,
+      #72759d 87.5%,
+      #72759d
+    ),
+    linear-gradient(
+      60deg,
+      #72759d 25%,
+      transparent 25.5%,
+      transparent 75%,
+      #72759d 75%,
+      #72759d
+    ),
+    linear-gradient(
+      60deg,
+      #72759d 25%,
+      transparent 25.5%,
+      transparent 75%,
+      #72759d 75%,
+      #72759d
+    );
+  background-size: 80px 140px;
+  background-position: 0 0, 0 0, 40px 72px, 40px 72px, 0 0, 40px 72px;
 }
 </style>
+
+<!-- wishlist -->

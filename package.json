@@ -7,15 +7,16 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "start": "nuxt start"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "naive-ui": "^2.34.4",
     "nuxt": "^3.7.3",
     "vfonts": "^0.0.3"
   },
   "dependencies": {
-    "contentful": "^10.5.2"
+    "contentful": "^10.5.2",
+    "naive-ui": "^2.35.0"
   }
 }

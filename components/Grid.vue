@@ -1,21 +1,19 @@
 <template>
   <div>
-    <div>
-      <div
-        v-for="(row, rowIndex) in props.lineup"
-        :key="rowIndex"
-        ref="rows"
-        :id="props.lineup[rowIndex].id"
-      >
-        <Card
-          :content="row"
-          @addToWishList="
-            (obj) => {
-              $emit('addToWishList', obj);
-            }
-          "
-        ></Card>
-      </div>
+    <div
+      v-for="(row, rowIndex) in props.entries"
+      :key="rowIndex"
+      ref="rows"
+      :id="props.entries[rowIndex].id"
+    >
+      <Card
+        :content="row"
+        @addToWishList="
+          (obj) => {
+            $emit('addToWishList', obj);
+          }
+        "
+      ></Card>
     </div>
   </div>
 </template>
@@ -33,8 +31,12 @@ onMounted(() => {
   //   }
 });
 const props = defineProps({
-  lineup: Object,
+  entries: Object,
   focusedId: String,
 });
 </script>
-<style></style>
+<style>
+/* .scroll {
+  overflow: auto;
+} */
+</style>
