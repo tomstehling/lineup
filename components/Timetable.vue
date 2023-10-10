@@ -1,6 +1,6 @@
 <template>
   <div class="timetable-container">
-    <n-tabs type="segment" animated>
+    <n-tabs type="segment" animatedgit>
       <n-tab-pane
         v-for="(date, dateIndex) in festivalDates"
         :name="dateIndex"
@@ -17,9 +17,20 @@
 <script setup>
 import { onMounted, computed, watch } from "vue";
 import { NTabs, NTabPane, NTab } from "naive-ui";
+import {
+  saveToLocalStorage,
+  getFromLocalStorage,
+} from "../helpers/localStorage";
 const queryId = ref("");
 const route = useRoute();
-const wishlist = reactive(new Set());
+const reactiveWishlist = reactive([]);
+watch(reactiveWishlist, () => {
+  reactiveWishlist.sort((a, b) => {
+    const dateA = new Date(a.showDatetime);
+    const dateB = new Date(b.showDatetime);
+    return dateA - dateB;
+  });
+});
 
 const props = defineProps({
   lineup: Array,
@@ -34,20 +45,36 @@ const festivalDates = computed(() => {
 });
 
 const getWishlist = () => {
-  const wishlistArray = Array.from(wishlist).map((e) => JSON.parse(e));
-  return wishlistArray;
+  const wishlist = getFromLocalStorage();
+  return wishlist;
 };
 const addWishlist = (obj) => {
-  const objString = JSON.stringify(obj);
-  wishlist.add(objString);
+  const wishlist = getWishlist();
+  let wishlistSet = new Set([JSON.stringify(obj)]);
+  wishlist.map((e) => {
+    wishlistSet.add(JSON.stringify(e));
+  });
+  const wishlistArr = Array.from(wishlistSet).map(JSON.parse);
+  saveToLocalStorage(wishlistArr);
+  reactiveWishlist.splice(0, reactiveWishlist.length);
+  wishlistArr.map((e) => {
+    reactiveWishlist.push(e);
+  });
 };
 const removeWishlist = (obj) => {
-  const objString = JSON.stringify(obj);
-  wishlist.delete(objString);
+  let wishlist = getFromLocalStorage();
+  const wishlistSet = new Set(wishlist.map(JSON.stringify));
+  wishlistSet.delete(JSON.stringify(obj));
+  wishlist = Array.from(wishlistSet).map(JSON.parse);
+  saveToLocalStorage(wishlist);
+  reactiveWishlist.splice(0, reactiveWishlist.length);
+  wishlist.map((e) => {
+    reactiveWishlist.push(e);
+  });
 };
 const checkWishlist = (obj) => {
-  const objString = JSON.stringify(obj);
-  if (wishlist.has(objString)) {
+  const wishlist = new Set(reactiveWishlist.map(JSON.stringify));
+  if (wishlist.has(JSON.stringify(obj))) {
     return true;
   } else return false;
 };
@@ -57,13 +84,6 @@ provide("wishlist", {
   addWishlist,
   removeWishlist,
   checkWishlist,
-});
-
-onMounted(() => {
-  sortByDate();
-  if (route.query.id) {
-    queryId.value = route.query.id;
-  }
 });
 
 const sortByDate = () => {
@@ -82,10 +102,20 @@ const getWeekday = (dateString) => {
 
 const getData = (date) => {
   if (props.showWishlist) {
-    return getWishlist().filter((obj) => obj.showDatetime.startsWith(date));
+    return reactiveWishlist.filter((obj) => obj.showDatetime.startsWith(date));
   }
   return props.lineup.filter((obj) => obj.showDatetime.startsWith(date));
 };
+
+onMounted(() => {
+  getWishlist().map((e) => {
+    reactiveWishlist.push(e);
+  });
+  sortByDate();
+  if (route.query.id) {
+    queryId.value = route.query.id;
+  }
+});
 </script>
 <style>
 /* .timetable-container {
