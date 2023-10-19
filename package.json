@@ -11,9 +11,11 @@
     "start": "nuxt start"
   },
   "devDependencies": {
+    "@kevinmarrec/nuxt-pwa": "^0.17.0",
     "@nuxt/devtools": "latest",
     "nuxt": "^3.7.3",
-    "vfonts": "^0.0.3"
+    "vfonts": "^0.0.3",
+    "workbox-precaching": "^7.0.0"
   },
   "dependencies": {
     "contentful": "^10.5.2",
