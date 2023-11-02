@@ -27,7 +27,7 @@ const lineup = reactive([]);
 
 const getLineup = async () => {
   try {
-    const result = await getEntries();
+    const result = await getEntries({ content_type: "lineup" });
     result.map((e) => {
       lineup.push(e);
     });
