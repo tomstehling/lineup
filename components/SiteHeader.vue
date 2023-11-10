@@ -14,7 +14,6 @@
     </n-text>
     <div :style="''"></div>
     <n-popover
-      ref="mobilePopoverRef"
       style="padding: 0; width: 288px"
       placement="bottom-end"
       display-directive="show"
@@ -42,7 +41,7 @@
 import { MenuOutline } from "@vicons/ionicons5";
 import { useRoute } from "vue-router";
 import type { RouteLocationPathRaw } from "vue-router";
-const mobilePopoverRef = ref<null | { value: { setShow: () => null } }>(null);
+
 const route = useRoute();
 
 const renderMenuLabel = (option: { label: string; path: any }) => {
@@ -92,9 +91,6 @@ function handleUpdateMobileMenu(
 ) {
   console.log(key, path);
   navigateTo(path);
-  if (mobilePopoverRef) {
-  }
-  mobilePopoverRef.value.setShow(false);
 }
 </script>
 <style scoped>
