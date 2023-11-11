@@ -41,13 +41,12 @@
 import { MenuOutline } from "@vicons/ionicons5";
 import { useRoute } from "vue-router";
 import type { RouteLocationPathRaw } from "vue-router";
-
+const localeNameRef = ref("de-DE");
 const route = useRoute();
 
 const renderMenuLabel = (option: { label: string; path: any }) => {
   return option.label;
 };
-
 const mobileMenuOptionsRef = computed(() => {
   return [
     {
@@ -142,11 +141,5 @@ function handleUpdateMobileMenu(
 <style>
 .nav-menu .n-menu-item {
   height: calc(var(--header-height) - 1px) !important;
-}
-.scroll {
-  /* margin-top: 64px;
-  overflow: auto;
-  position: relative;
-  width: 100%; */
 }
 </style>

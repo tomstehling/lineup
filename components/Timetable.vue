@@ -117,7 +117,7 @@ const getData = (date) => {
   }
   //implement verbergen field
   return dataArr
-    .filter((obj) => obj.tage.datum.startsWith(date))
+    .filter((obj) => !obj.verbergen && obj.tage.datum.startsWith(date))
     .sort((a, b) => {
       const dateA = parseFloat(a.startzeit.split("-")[0]);
       const dateB = parseFloat(b.startzeit.split("-")[0]);
