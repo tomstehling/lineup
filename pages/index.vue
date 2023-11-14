@@ -29,6 +29,7 @@ const getLineup = async () => {
   try {
     const result = await getEntries({ content_type: "lineup" });
     result.map((e) => {
+      console.log("entry", e);
       lineup.push(e);
     });
   } finally {
@@ -36,6 +37,7 @@ const getLineup = async () => {
   }
 };
 onMounted(() => {
+  console.log("index has mounted");
   getLineup();
 });
 </script>

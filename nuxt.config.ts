@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
+  ssr: false,
   devtools: { enabled: true },
   modules: ["@kevinmarrec/nuxt-pwa"],
   pwa: {
@@ -11,10 +12,14 @@ export default defineNuxtConfig({
     },
     workbox: {
       templatePath: "./sw.js",
+      enabled: true,
     },
   },
-
-  build: {
-    transpile: ["naive-ui", "vueuc", "contentful"],
+  alias: {
+    "#pwa": "./.nuxt/types/pwa",
   },
+
+  // build: {
+  //   transpile: ["naive-ui", "vueuc", "contentful"],
+  // },
 });
