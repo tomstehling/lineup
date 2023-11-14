@@ -1,5 +1,5 @@
 <template>
-  <div id="index">
+  <n-layout>
     <div class="scroll">
       <Switcher
         :showWishlist="showWishlist"
@@ -15,14 +15,15 @@
         ></Timetable>
       </div>
     </div>
-  </div>
+  </n-layout>
 </template>
 <script setup>
 import { getEntries } from "../contentful/contentfulAPI";
 import { provide, ref } from "vue";
-
+import { useRoute } from "vue-router";
+const route = useRoute();
 let isLoading = ref(true);
-const showWishlist = ref(false);
+const showWishlist = ref(route.query.showWishlist);
 const lineup = reactive([]);
 
 const getLineup = async () => {

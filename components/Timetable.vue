@@ -1,6 +1,6 @@
 <template>
-  <div class="timetable-container">
-    <n-tabs type="segment" animatedgit>
+  <div>
+    <n-tabs type="line" animated size="large" :tabs-padding="30">
       <n-tab-pane
         v-for="(date, dateIndex) in festivalDates"
         :name="dateIndex"
@@ -11,6 +11,13 @@
         <Grid v-if="getData(date).length !== 0" :entries="getData(date)" />
         <div v-else>Start adding to your wishlist!</div>
       </n-tab-pane>
+      <template #suffix>
+        <Switcher
+          style="margin-right: 10px"
+          @switcher="$emit('switcher')"
+          :showWishlist="props.showWishlist"
+        />
+      </template>
     </n-tabs>
   </div>
 </template>
@@ -36,6 +43,7 @@ const props = defineProps({
   lineup: Array,
   showWishlist: Boolean,
 });
+
 const festivalDates = computed(() => {
   const festivalDates = [
     ...new Set(props.lineup.map((obj) => obj.showDatetime.split("T")[0])),
@@ -117,11 +125,3 @@ onMounted(() => {
   }
 });
 </script>
-<style>
-/* .timetable-container {
-  width: 50%;
-  position: relative;
-  left: 25%;
-  overflow: auto;
-} */
-</style>
