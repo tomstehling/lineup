@@ -30,8 +30,5 @@
 </template>
 
 <script setup>
-import { defineComponent } from "vue";
 import { darkTheme } from "naive-ui";
-import homeVue from "./pages/home.vue";
-import { useRouter } from "#vue-router";
 </script>
