@@ -1,7 +1,8 @@
 {
-  "space": "ixag5qb4t22m",
-  "accessToken": "nfsG9YP5teGkDu1pFeB_J0ARMdHjpPcTY1gDm-adenE",
-  "previewAccessToken": "",
+  "space": "e6hvczbm7inx",
+  "accessToken": "9HLjgeS45ssnwTjitSwjijoljnlaOIoTkrXeiVjXHWg",
+  "previewAccessToken": "CXaDaZyn0_Il4TBhamz69NJg_KNsmqOXGRFrq25y-4U",
   "environment": "master",
-  "configId": ""
+  "configId": "",
+  "CMATokenForTesting": "CFPAT-3FvBoqyljgybE9V6RFme76lXktySypaiYFY5jlX5Leo"
 }

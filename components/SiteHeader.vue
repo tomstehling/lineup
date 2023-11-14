@@ -10,11 +10,11 @@
     }"
   >
     <n-text tag="div" class="ui-logo">
-      <img src="/WurzelIcon.png" />
+      <img src="/WurzelIcon.png" @click="navigateTo('')" />
     </n-text>
     <div :style="''"></div>
     <n-popover
-      ref="mobilePopoverRef"
+      ref="menuPopoverRef"
       style="padding: 0; width: 288px"
       placement="bottom-end"
       display-directive="show"
@@ -42,33 +42,34 @@
 import { MenuOutline } from "@vicons/ionicons5";
 import { useRoute } from "vue-router";
 import type { RouteLocationPathRaw } from "vue-router";
-const mobilePopoverRef = ref<null | { value: { setShow: () => null } }>(null);
+import { useI18n } from "vue-i18n";
 const route = useRoute();
+const { t } = useI18n();
+const menuPopoverRef = ref<null | { setShow: (value: boolean) => null }>(null);
 
 const renderMenuLabel = (option: { label: string; path: any }) => {
   return option.label;
 };
-
 const mobileMenuOptionsRef = computed(() => {
   return [
     {
       key: "home",
-      label: "home",
+      label: t("home"),
       path: "home",
     },
     {
       key: "timetable",
-      label: "timetable",
+      label: t("timetable"),
       path: "timetable",
     },
     {
       key: "info",
-      label: "info",
+      label: t("info"),
       path: "info",
     },
     {
       key: "map",
-      label: "map",
+      label: t("map"),
       path: "map",
     },
   ];
@@ -91,10 +92,10 @@ function handleUpdateMobileMenu(
   { path }: { path: RouteLocationPathRaw }
 ) {
   console.log(key, path);
-  navigateTo(path);
-  if (mobilePopoverRef) {
+  if (menuPopoverRef.value !== null) {
+    menuPopoverRef.value.setShow(false);
   }
-  mobilePopoverRef.value.setShow(false);
+  navigateTo(path);
 }
 </script>
 <style scoped>
@@ -146,11 +147,5 @@ function handleUpdateMobileMenu(
 <style>
 .nav-menu .n-menu-item {
   height: calc(var(--header-height) - 1px) !important;
-}
-.scroll {
-  /* margin-top: 64px;
-  overflow: auto;
-  position: relative;
-  width: 100%; */
 }
 </style>

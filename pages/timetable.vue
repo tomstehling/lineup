@@ -3,6 +3,7 @@
   <div v-else>
     <Timetable
       :lineup="lineup"
+      :festivalDates="festivalDates"
       :showWishlist="showWishlist"
       class="timetable"
       @switcher="showWishlist = !showWishlist"
@@ -17,12 +18,17 @@ const route = useRoute();
 let isLoading = ref(true);
 const showWishlist = ref(route.query.showWishlist);
 const lineup = reactive([]);
+const festivalDates = reactive([]);
 
 const getLineup = async () => {
   try {
-    const result = await getEntries({ content_type: "lineup" });
-    result.map((e) => {
+    const combinedTimetable = await getEntries({ content_type: "zeitplan" });
+    const days = await getEntries({ content_type: "tage" });
+    combinedTimetable.map((e) => {
       lineup.push(e);
+    });
+    days.map((e) => {
+      festivalDates.push(e);
     });
   } finally {
     isLoading.value = false;

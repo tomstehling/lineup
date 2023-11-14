@@ -2,14 +2,21 @@
   <div>
     <n-tabs type="line" animated size="large" :tabs-padding="30">
       <n-tab-pane
-        v-for="(date, dateIndex) in festivalDates"
+        v-for="(dateobj, dateIndex) in festivalDates"
         :name="dateIndex"
-        :tab="getWeekday(date)"
+        :tab="getWeekday(dateobj.datum)"
         display-direcitve="show"
         ref="tabPaneInstRef"
       >
-        <Grid v-if="getData(date).length !== 0" :entries="getData(date)" />
-        <div v-else>Start adding to your wishlist!</div>
+        <Grid
+          v-if="getData(dateobj.datum).length !== 0"
+          :entries="getData(dateobj.datum)"
+        />
+        <div v-else>
+          <n-space justify="center"
+            ><n-text>{{ $t("startAddWishlist") }}</n-text></n-space
+          >
+        </div>
       </n-tab-pane>
       <template #suffix>
         <Switcher
@@ -28,8 +35,22 @@ import {
   saveToLocalStorage,
   getFromLocalStorage,
 } from "../helpers/localStorage";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+const props = defineProps({
+  lineup: Array,
+  festivalDates: Array,
+  showWishlist: Boolean,
+});
+
 const queryId = ref("");
 const route = useRoute();
+const festivalDates = props.festivalDates.sort((a, b) => {
+  const dateA = new Date(a.datum);
+  const dateB = new Date(b.datum);
+  return dateA - dateB;
+});
+
 const reactiveWishlist = reactive([]);
 watch(reactiveWishlist, () => {
   reactiveWishlist.sort((a, b) => {
@@ -39,18 +60,13 @@ watch(reactiveWishlist, () => {
   });
 });
 
-const props = defineProps({
-  lineup: Array,
-  showWishlist: Boolean,
-});
+// const festivalDates = computed(() => {
+//   const festivalDates = [
+//     ...new Set(props.lineup.map((obj) => obj.showDatetime.split("T")[0])),
+//   ];
 
-const festivalDates = computed(() => {
-  const festivalDates = [
-    ...new Set(props.lineup.map((obj) => obj.showDatetime.split("T")[0])),
-  ];
-
-  return festivalDates;
-});
+//   return festivalDates;
+// });
 
 const getWishlist = () => {
   const wishlist = getFromLocalStorage();
@@ -94,32 +110,31 @@ provide("wishlist", {
   checkWishlist,
 });
 
-const sortByDate = () => {
-  props.lineup.sort((a, b) => {
-    const dateA = new Date(a.showDatetime);
-    const dateB = new Date(b.showDatetime);
-    return dateA - dateB;
-  });
-};
-
 const getWeekday = (dateString) => {
-  const weekDays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
   const date = new Date(dateString);
-  return weekDays[date.getDay()];
+  const dayInt = date.getDay();
+  return t(`weekdays[${dayInt}]`);
 };
 
 const getData = (date) => {
+  let dataArr = props.lineup;
   if (props.showWishlist) {
-    return reactiveWishlist.filter((obj) => obj.showDatetime.startsWith(date));
+    dataArr = reactiveWishlist;
   }
-  return props.lineup.filter((obj) => obj.showDatetime.startsWith(date));
+  //implement verbergen field
+  return dataArr
+    .filter((obj) => !obj.verbergen && obj.tage.datum.startsWith(date))
+    .sort((a, b) => {
+      const dateA = parseFloat(a.startzeit.split("-")[0]);
+      const dateB = parseFloat(b.startzeit.split("-")[0]);
+      return dateA - dateB;
+    });
 };
 
 onMounted(() => {
   getWishlist().map((e) => {
     reactiveWishlist.push(e);
   });
-  sortByDate();
   if (route.query.id) {
     queryId.value = route.query.id;
   }

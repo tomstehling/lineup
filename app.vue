@@ -16,7 +16,7 @@
                 margin: auto;
               "
             >
-              <SiteHeader />
+              <SiteHeader v-if="!($route.path === '/')" />
               <n-layout position="absolute" style="top: 64px">
                 <NuxtPage />
               </n-layout>
@@ -30,8 +30,5 @@
 </template>
 
 <script setup>
-import { defineComponent } from "vue";
 import { darkTheme } from "naive-ui";
-import homeVue from "./pages/home.vue";
 </script>
-<style scoped></style>

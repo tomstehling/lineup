@@ -1,0 +1,10 @@
+{
+  "home": "Zuhause",
+  "timetable": "Programm",
+  "info": "Information",
+  "map": "Landkarte",
+  "favorites": "Favoriten",
+  "all": "Alle",
+  "weekdays": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+  "startAddWishlist": "Füge Deine Favoriten hinzu!"
+}

@@ -1,13 +1,16 @@
 <template>
-  <n-card :title="props.content.artist" content-style="">
-    <template #header-extra>{{ props.content.showDuration + "h" }}</template>
-
-    <n-tag :type="checkWishlist({ ...props.content }) ? 'success' : ''">
-      {{ getTimeSlot(props.content.showDatetime) }}
-    </n-tag>
-
+  <n-card :title="props.content.artist.name" content-style="">
+    <n-space>
+      <n-tag :type="checkWishlist({ ...props.content }) ? 'success' : ''">
+        {{ props.content.startzeit }}
+      </n-tag>
+      <n-tag type="info">
+        {{ props.content.floors.floorname }}
+      </n-tag>
+    </n-space>
     <template #footer>
       <n-button
+        round
         strong
         secondary
         :type="!checkWishlist({ ...props.content }) ? 'tertiary' : 'primary'"
@@ -20,12 +23,12 @@
             }
           }
         "
-        >{{ checkWishlist({ ...props.content }) ? "UnFav" : "Fav  " }}
-        <n-icon size="20" style="margin-left: 12px">
-          <heart v-if="!checkWishlist({ ...props.content })" />
-          <heart-dislike
-            v-if="checkWishlist({ ...props.content })"
-          /> </n-icon></n-button
+        ><n-space>
+          <n-icon size="20">
+            <heart v-if="!checkWishlist({ ...props.content })" />
+            <heart-dislike
+              v-if="checkWishlist({ ...props.content })"
+            /> </n-icon></n-space></n-button
     ></template>
   </n-card>
 </template>
