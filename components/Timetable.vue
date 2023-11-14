@@ -12,7 +12,11 @@
           v-if="getData(dateobj.datum).length !== 0"
           :entries="getData(dateobj.datum)"
         />
-        <div v-else>Start adding to your wishlist!</div>
+        <div v-else>
+          <n-space justify="center"
+            ><n-text>{{ $t("startAddWishlist") }}</n-text></n-space
+          >
+        </div>
       </n-tab-pane>
       <template #suffix>
         <Switcher
@@ -31,6 +35,8 @@ import {
   saveToLocalStorage,
   getFromLocalStorage,
 } from "../helpers/localStorage";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 const props = defineProps({
   lineup: Array,
   festivalDates: Array,
@@ -105,9 +111,9 @@ provide("wishlist", {
 });
 
 const getWeekday = (dateString) => {
-  const weekDays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
   const date = new Date(dateString);
-  return weekDays[date.getDay()];
+  const dayInt = date.getDay();
+  return t(`weekdays[${dayInt}]`);
 };
 
 const getData = (date) => {

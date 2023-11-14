@@ -1,6 +1,6 @@
 <template>
   <n-button @click="$emit('switcher')">{{
-    props.showWishlist ? "All" : "Favorites"
+    props.showWishlist ? $t("all") : $t("favorites")
   }}</n-button>
 </template>
 <script setup>

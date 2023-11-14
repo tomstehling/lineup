@@ -10,6 +10,7 @@
     </n-space>
     <template #footer>
       <n-button
+        round
         strong
         secondary
         :type="!checkWishlist({ ...props.content }) ? 'tertiary' : 'primary'"
@@ -23,7 +24,7 @@
           }
         "
         ><n-space>
-          <n-icon size="20" style="margin-left: 0px">
+          <n-icon size="20">
             <heart v-if="!checkWishlist({ ...props.content })" />
             <heart-dislike
               v-if="checkWishlist({ ...props.content })"

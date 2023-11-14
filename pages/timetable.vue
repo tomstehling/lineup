@@ -22,15 +22,12 @@ const festivalDates = reactive([]);
 
 const getLineup = async () => {
   try {
-    console.log("getLineup");
     const combinedTimetable = await getEntries({ content_type: "zeitplan" });
     const days = await getEntries({ content_type: "tage" });
     combinedTimetable.map((e) => {
-      console.log(e);
       lineup.push(e);
     });
     days.map((e) => {
-      console.log(e);
       festivalDates.push(e);
     });
   } finally {

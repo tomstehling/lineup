@@ -1,26 +1,26 @@
 <template>
-  <n-space justify="center">
-    <n-button
-      @click="
-        () => {
-          $i18n.locale = 'de';
-          navigateTo('timetable');
-        }
-      "
-      ><n-tag :bordered="false" type="info">Deutsch</n-tag></n-button
+  <n-space vertical justify="center" style="height: 100%"
+    ><n-space justify="center">
+      <n-button
+        type="info"
+        @click="
+          () => {
+            $i18n.locale = 'de';
+            navigateTo('timetable');
+          }
+        "
+        >Deutsch</n-button
+      >
+      <n-button
+        type="info"
+        @click="
+          () => {
+            $i18n.locale = 'en';
+            navigateTo('timetable');
+          }
+        "
+        >Englisch</n-button
+      ></n-space
     >
-    <n-button
-      @click="
-        () => {
-          $i18n.locale = 'de';
-          navigateTo('timetable');
-        }
-      "
-      ><n-tag :bordered="false" type="info">Englisch</n-tag></n-button
-    ></n-space
-  >
+  </n-space>
 </template>
-<script setup lang="ts">
-import { useI18n } from "vue-i18n";
-const { t } = useI18n();
-</script>

@@ -2,5 +2,9 @@
   "home": "Home",
   "timetable": "Timetable",
   "info": "Information",
-  "map": "Map"
+  "map": "Map",
+  "favorites": "favorites",
+  "all": "all",
+  "weekdays": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+  "startAddWishlist": "Start adding your favorites!!"
 }
