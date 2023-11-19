@@ -6,5 +6,6 @@
   "favorites": "favorites",
   "all": "all",
   "weekdays": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-  "startAddWishlist": "Start adding your favorites!!"
+  "startAddWishlist": "Start adding your favorites!!",
+  "noEntriesAvailable": "No entries available :("
 }

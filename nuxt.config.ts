@@ -3,16 +3,21 @@ export default defineNuxtConfig({
   ssr: false, // Disable SSR for development
   devtools: { enabled: true },
   router: {
-    options: {
-      hashMode: true,
-    },
+    options: { hashMode: true },
   },
   modules: ["@kevinmarrec/nuxt-pwa"],
   pwa: {
+    manifest: {
+      name: "Wurzelfestival",
+      short_name: "Wurzelfestival",
+      background_color: "#000000",
+      theme_color: "#000000",
+    },
+
     meta: {
       name: "Wurzelfestival",
       description: "Zurueck zu den Wurzeln",
-      theme_color: "#aa22ff",
+      theme_color: "#000000",
     },
     workbox: {
       templatePath: "./sw.js",
@@ -28,7 +33,7 @@ export default defineNuxtConfig({
       viewport: "width=device-width, initial-scale=1 , user-scalable=0",
     },
   },
-  // build: {
-  //   transpile: ["naive-ui", "vueuc", "contentful"],
-  // },
+  build: {
+    transpile: ["naive-ui", "vueuc", "contentful", "vue-i18n"],
+  },
 });
