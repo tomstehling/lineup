@@ -1,6 +1,8 @@
 <template>
   <div style="overflow: auto">
-    <div v-if="isLoading">..loading</div>
+    <n-space v-if="isLoading" vertical justify="center" style="height: 100%">
+      <n-space justify="center"><n-spin size="medium" /></n-space>
+    </n-space>
     <img v-else :src="areaPlanUrl" />
   </div>
 </template>

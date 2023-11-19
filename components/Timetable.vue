@@ -1,5 +1,17 @@
 <template>
   <div>
+    <n-collapse-transition :show="show">
+      <n-space
+        ><n-tag
+          v-for="(e, index) of props.floors"
+          :bordered="checked[index]"
+          :type="checked[index] ? 'success' : ''"
+          @click="checked[index] = !checked[index]"
+          >{{ e.floorname }}</n-tag
+        ></n-space
+      >
+    </n-collapse-transition>
+
     <n-tabs type="line" animated size="large" :tabs-padding="30">
       <n-tab-pane
         v-for="(dateobj, dateIndex) in festivalDates"
@@ -14,35 +26,54 @@
         />
         <div v-else>
           <n-space justify="center"
-            ><n-text>{{ $t("startAddWishlist") }}</n-text></n-space
+            ><n-text>{{
+              props.showWishlist
+                ? $t("startAddWishlist")
+                : $t("noEntriesAvailable")
+            }}</n-text></n-space
           >
         </div>
       </n-tab-pane>
       <template #suffix>
-        <Switcher
-          style="margin-right: 10px"
-          @switcher="$emit('switcher')"
-          :showWishlist="props.showWishlist"
-        />
+        <n-space justify="evenly">
+          <n-badge :show="filteredFloors.length === 0 ? false : true" dot>
+            <n-button round secondary type="info" @click="show = !show"
+              ><n-icon size="24" color="#ffffff">
+                <FilterCircleOutline v-if="!show" /><CheckmarkCircleOutline
+                  v-if="show" /></n-icon
+            ></n-button>
+          </n-badge>
+          <Switcher
+            style="margin-right: 10px"
+            @switcher="$emit('switcher')"
+            :showWishlist="props.showWishlist"
+          />
+        </n-space>
       </template>
     </n-tabs>
   </div>
 </template>
 <script setup>
 import { onMounted, computed, watch } from "vue";
+import { FilterCircleOutline, CheckmarkCircleOutline } from "@vicons/ionicons5";
 import { NTabs, NTabPane, NTab } from "naive-ui";
 import {
   saveToLocalStorage,
   getFromLocalStorage,
 } from "../helpers/localStorage";
 import { useI18n } from "vue-i18n";
+const show = ref(false);
 const { t } = useI18n();
 const props = defineProps({
   lineup: Array,
   festivalDates: Array,
+  floors: Array,
   showWishlist: Boolean,
 });
-
+const checked = reactive(new Array(props.floors.length).fill(false));
+const filteredFloors = computed(() =>
+  props.floors.filter((e, index) => e.floorname && checked[index])
+);
 const queryId = ref("");
 const route = useRoute();
 const festivalDates = props.festivalDates.sort((a, b) => {
@@ -124,11 +155,27 @@ const getData = (date) => {
   //implement verbergen field
   return dataArr
     .filter((obj) => !obj.verbergen && obj.tage.datum.startsWith(date))
+    .filter((obj) => {
+      if (filteredFloors.value.length === 0) {
+        return true;
+      } else {
+        return filterOptions(obj);
+      }
+    })
     .sort((a, b) => {
       const dateA = parseFloat(a.startzeit.split("-")[0]);
       const dateB = parseFloat(b.startzeit.split("-")[0]);
       return dateA - dateB;
     });
+};
+
+const filterOptions = (obj) => {
+  const floorname = obj.floors && obj.floors.floorname;
+  if (!floorname) return false;
+  for (const i of filteredFloors.value) {
+    if (obj.floors.floorname === i.floorname) return true;
+  }
+  return false;
 };
 
 onMounted(() => {

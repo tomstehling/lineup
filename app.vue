@@ -32,3 +32,10 @@
 <script setup>
 import { darkTheme } from "naive-ui";
 </script>
+<style>
+html,
+body {
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
+}
+</style>

@@ -18,7 +18,21 @@ export async function getEntry(id) {
 }
 
 export async function getEntries(query) {
-  const res = await client.getEntries({ ...DEFAULT_OPTIONS, ...query });
+  let allEntries = new Array();
+  let skip = 0;
+  let limit = 500;
+  let res;
+  do {
+    res = await client.getEntries({
+      ...DEFAULT_OPTIONS,
+      ...query,
+      skip,
+      limit,
+    });
+    allEntries = allEntries.concat(res.items);
+    skip += limit;
+  } while (allEntries.length < res.total);
+
   return res.items.map((item) => mapEntry(item));
 }
 

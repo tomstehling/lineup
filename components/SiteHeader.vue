@@ -12,7 +12,7 @@
     <n-text tag="div" class="ui-logo">
       <img src="/WurzelIcon.png" @click="navigateTo('')" />
     </n-text>
-    <div :style="''"></div>
+    <div></div>
     <n-popover
       ref="menuPopoverRef"
       style="padding: 0; width: 288px"
@@ -33,6 +33,14 @@
           :render-label="renderMenuLabel"
           @update:value="handleUpdateMobileMenu"
         />
+        <n-alert title="Notfall" type="warning">
+          <n-el
+            tag="a"
+            :href="`tel:${emergencyHotline}`"
+            style="text-decoration: none"
+            ><n-h4>{{ emergencyHotline }}</n-h4></n-el
+          >
+        </n-alert>
       </div>
     </n-popover>
   </n-layout-header>
@@ -53,19 +61,9 @@ const renderMenuLabel = (option: { label: string; path: any }) => {
 const mobileMenuOptionsRef = computed(() => {
   return [
     {
-      key: "home",
-      label: t("home"),
-      path: "home",
-    },
-    {
       key: "timetable",
       label: t("timetable"),
       path: "timetable",
-    },
-    {
-      key: "info",
-      label: t("info"),
-      path: "info",
     },
     {
       key: "map",
@@ -77,16 +75,21 @@ const mobileMenuOptionsRef = computed(() => {
 
 const mobileMenuValueRef = computed(() => {
   switch (route.name) {
-    case "index":
-      return "index";
-    case "index":
-      return "index";
+    case "timetable":
+      return "timetable";
+    case "home":
+      return "home";
+    case "map":
+      return "map";
+    case "info":
+      return "info";
   }
 });
 
 const mobileMenuOptions = mobileMenuOptionsRef;
 const mobileMenuValue = mobileMenuValueRef;
 
+const emergencyHotline = computed(() => "+49 160 9805 9698");
 function handleUpdateMobileMenu(
   key: String,
   { path }: { path: RouteLocationPathRaw }

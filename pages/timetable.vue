@@ -1,9 +1,12 @@
 <template>
-  <div v-if="isLoading">..loading</div>
+  <n-space v-if="isLoading" vertical justify="center" style="height: 100%">
+    <n-space justify="center"><n-spin size="medium" /></n-space>
+  </n-space>
   <div v-else>
     <Timetable
       :lineup="lineup"
       :festivalDates="festivalDates"
+      :floors="floors"
       :showWishlist="showWishlist"
       class="timetable"
       @switcher="showWishlist = !showWishlist"
@@ -19,16 +22,24 @@ let isLoading = ref(true);
 const showWishlist = ref(route.query.showWishlist);
 const lineup = reactive([]);
 const festivalDates = reactive([]);
+const floors = reactive([]);
 
 const getLineup = async () => {
   try {
-    const combinedTimetable = await getEntries({ content_type: "zeitplan" });
+    const combinedTimetable = await getEntries({
+      content_type: "zeitplan",
+    });
+
     const days = await getEntries({ content_type: "tage" });
+    const stages = await getEntries({ content_type: "floors" });
     combinedTimetable.map((e) => {
       lineup.push(e);
     });
     days.map((e) => {
       festivalDates.push(e);
+    });
+    stages.map((e) => {
+      floors.push(e);
     });
   } finally {
     isLoading.value = false;
