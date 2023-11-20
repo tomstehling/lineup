@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: false, // Disable SSR for development
+  ssr: false,
   devtools: { enabled: true },
   router: {
     options: { hashMode: true },
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     },
     workbox: {
       templatePath: "./sw.js",
-      enabled: true,
+      // enabled: true,
     },
   },
   alias: {
