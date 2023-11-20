@@ -64,6 +64,17 @@ registerRoute(
   })
 );
 
+registerRoute(
+  ({ request }) => request.url && request.url.includes('/_nuxt/builds/meta/'),
+  new CacheFirst({
+    cacheName: 'metaFile',
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [200] }),
+      new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
+    ]
+  })
+);
+
 // Precaching
 if (options.preCaching.length) {
   precacheAndRoute(options.preCaching, options.cacheOptions)
