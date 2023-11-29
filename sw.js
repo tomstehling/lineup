@@ -1,7 +1,7 @@
 const options = <%= JSON.stringify(options) %>
 
 importScripts(options.workboxUrl)
-const wb_manifest=new Array({revision:'adsfjlsd', url:'http://localhost:3000/manifest.json'},{revision:'adssdlsd', url:'http://localhost:3000/'},{revision:'adfadfaa',url:'http://localhost:3000/WurzelIcon.png'});
+const wb_manifest=new Array({revision:'adsfjlsd', url:'/manifest.json'},{revision:'adssdlsd', url:'/'},{revision:'adfadfaa',url:'/WurzelIcon.png'});
 async function fetchAndPrecacheManifest() {
   try {
     const response = await fetch('_nuxt/wb_manifest.json');
