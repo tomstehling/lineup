@@ -14,7 +14,7 @@ export default defineNuxtConfig({
       for (const key in manifest) {
         if (manifest.hasOwnProperty(key)) {
           const entry = manifest[key];
-          if (entry.prefetch && entry.preload && key.startsWith("pages/")) {
+          if (entry.prefetch && entry.preload) {
             manifestArr.push(entry.file);
           }
         }
@@ -75,5 +75,8 @@ export default defineNuxtConfig({
   },
   build: {
     transpile: ["naive-ui", "vueuc", "contentful", "vue-i18n"],
+  },
+  experimental: {
+    appManifest: false,
   },
 });

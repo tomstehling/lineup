@@ -65,8 +65,28 @@ const getLineup = async () => {
     }
   }
 };
-
+async function cacheAppManifest() {
+  if ("serviceWorker" in navigator) {
+    const cache = await caches.open("metaFile").then((cache) => {
+      // Your object to be cached
+      const metaFile = {
+        id: "d6194723-758d-4805-b2e2-417e408f129d",
+        timestamp: 1701253776714,
+        matcher: { static: {}, wildcard: {}, dynamic: {} },
+        prerendered: [],
+      };
+      const metaFileJson = JSON.stringify(metaFile);
+      // Add the JSON string to the cache
+      return cache.put(
+        "metaFile",
+        new Response(metaFileJson, {
+          headers: { "Content-Type": "application/json" },
+        })
+      );
+    });
+  }
+}
 onMounted(() => {
-  getLineup();
+  getLineup().then(cacheAppManifest());
 });
 </script>
