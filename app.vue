@@ -28,7 +28,6 @@
     <n-global-style />
   </n-config-provider>
 </template>
-
 <script setup>
 import { darkTheme } from "naive-ui";
 </script>

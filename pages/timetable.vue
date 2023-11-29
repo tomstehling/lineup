@@ -15,11 +15,12 @@
 </template>
 <script setup>
 import { getEntries } from "../contentful/contentfulAPI";
-import { provide, ref } from "vue";
+import { inject, ref } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
 let isLoading = ref(true);
 const showWishlist = ref(route.query.showWishlist);
+
 const lineup = reactive([]);
 const festivalDates = reactive([]);
 const floors = reactive([]);
