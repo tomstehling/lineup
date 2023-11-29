@@ -12,7 +12,8 @@ function randomString(length: number) {
 
 export const wb_manifest: File[] = [];
 export function create_wb_manifest(manifestArr: string[]): File[] {
-  manifestArr.map((path) => {
+  let manifestArrNr = [...new Set(manifestArr)];
+  manifestArrNr.map((path) => {
     wb_manifest.push({ revision: randomString(12), url: `_nuxt/${path}` });
   });
   console.log("creat", wb_manifest);
