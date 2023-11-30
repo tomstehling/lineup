@@ -1,7 +1,7 @@
 const options = <%= JSON.stringify(options) %>
 
 importScripts(options.workboxUrl)
-const wb_manifest=new Array({revision:'adsfjlsd', url:'/manifest.json'},{revision:'adssdlsd', url:'/'},{revision:'adfadfaa',url:'/WurzelIcon.png'});
+const wb_manifest=new Array({revision:'NLHRuWqfd833', url:'/manifest.json'},{revision:'TIKpeiTK9QoJ', url:'/'},{revision:'s2Uf3DA5dMPQ',url:'/WurzelIcon.png'});
 async function fetchAndPrecacheManifest() {
   try {
     const response = await fetch('_nuxt/wb_manifest.json');
@@ -17,9 +17,9 @@ async function fetchAndPrecacheManifest() {
   }
 }
 
-self.addEventListener('install', (event) => event.waitUntil(precacheStatic().then(()=>self.skipWaiting())))
+//self.addEventListener('install', (event) => event.waitUntil(precacheStatic().then(()=>self.skipWaiting())))
 
-//self.addEventListener('install', () => self.skipWaiting())
+self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', () => self.clients.claim())
 
 
@@ -77,46 +77,46 @@ const { ExpirationPlugin } = workbox.expiration
 const { precacheAndRoute } = workbox.precaching
 
 
-// // Cache page navigations (html) with a Network First strategy
-// registerRoute(
-//   ({ request }) => {
-//     return request.mode === 'navigate'
-//   },
-//   new NetworkFirst({
-//     cacheName: 'pages',
-//     plugins: [
-//       new CacheableResponsePlugin({ statuses: [200] })
-//     ]
-//   })
-// )
+// Cache page navigations (html) with a Network First strategy
+registerRoute(
+  ({ request }) => {
+    return request.mode === 'navigate'
+  },
+  new NetworkFirst({
+    cacheName: 'pages',
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [200] })
+    ]
+  })
+)
 
-// // Cache Web Manifest, CSS, JS, and Web Worker requests with a Stale While Revalidate strategy
-// registerRoute(
-//   ({ request }) =>
-//     request.destination === 'manifest' ||
-//     request.destination === 'style' ||
-//     request.destination === 'script' ||
-//     request.destination === 'worker',
-//   new StaleWhileRevalidate({
-//     cacheName: 'assets',
-//     plugins: [
-//       new CacheableResponsePlugin({ statuses: [200] })
-//     ]
-//   })
-// )
+// Cache Web Manifest, CSS, JS, and Web Worker requests with a Stale While Revalidate strategy
+registerRoute(
+  ({ request }) =>
+    request.destination === 'manifest' ||
+    request.destination === 'style' ||
+    request.destination === 'script' ||
+    request.destination === 'worker',
+  new StaleWhileRevalidate({
+    cacheName: 'assets',
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [200] })
+    ]
+  })
+)
 
-// // Cache images with a Cache First strategy
-// registerRoute(
-//   ({ request }) => request.destination === 'image',
-//   new CacheFirst({
-//     cacheName: 'images',
-//     plugins: [
-//       new CacheableResponsePlugin({ statuses: [200] }),
-//       // 50 entries max, 30 days max
-//       new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
-//     ]
-//   })
-// )
+// Cache images with a Cache First strategy
+registerRoute(
+  ({ request }) => request.destination === 'image',
+  new CacheFirst({
+    cacheName: 'images',
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [200] }),
+      // 50 entries max, 30 days max
+      new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
+    ]
+  })
+)
 
 
 registerRoute(
@@ -144,9 +144,7 @@ registerRoute(
 async function precacheStatic(){
   precacheAndRoute(wb_manifest);
 }
-
-precacheStatic();
-
-fetch('_nuxt/wb_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true})});
+//precacheAndRoute(wb_manifest);
+// fetch('_nuxt/wb_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true})});
 
 

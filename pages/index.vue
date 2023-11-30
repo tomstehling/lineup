@@ -87,6 +87,6 @@ async function cacheAppManifest() {
   }
 }
 onMounted(() => {
-  getLineup().then(cacheAppManifest());
+  //getLineup().then(cacheAppManifest());
 });
 </script>
