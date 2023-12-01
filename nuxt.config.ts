@@ -50,6 +50,7 @@ export default defineNuxtConfig({
       short_name: "Wurzelfestival",
       background_color: "#000000",
       theme_color: "#000000",
+      start_url: "",
     },
 
     meta: {
