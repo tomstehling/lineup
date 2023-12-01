@@ -22,7 +22,7 @@ return blobImage
 const dataUrl=storeGif();
 
 importScripts(options.workboxUrl)
-const wb_manifest=new Array({revision:'NLHRuWqfd833', url:'/manifest.json'},{revision:'TIKpeiTK9QoJ', url:'/'},{revision:'s2Uf3DA5dMPQ',url:'/WurzelIcon.png'},{revision:'2XrpcJQ7AWod', url:dataUrl});
+const wb_manifest=new Array({revision:'NLHRuWqfd833', url:'/manifest.json'},{revision:'TIKpeiTK9QoJ', url:'/'},{revision:'TIKpeiTK9ioJ', url:'/standalone=true'},{revision:'s2Uf3DA5dMPQ',url:'/WurzelIcon.png'},{revision:'2XrpcJQ7AWod', url:dataUrl});
 async function fetchAndPrecacheManifest() {
   try {
     const response = await fetch('_nuxt/wb_manifest.json');
