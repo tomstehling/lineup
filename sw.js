@@ -22,7 +22,7 @@ return blobImage
 const dataUrl=storeGif();
 
 importScripts(options.workboxUrl)
-const wb_manifest=new Array({revision:'NLHRuWqfd833', url:'/manifest.json'},{revision:'TIKpeiTK9QoJ', url:'/'},{revision:'TIKpeiTK9ioJ', url:'/standalone=true'},{revision:'s2Uf3DA5dMPQ',url:'/WurzelIcon.png'},{revision:'2XrpcJQ7AWod', url:dataUrl});
+const wb_manifest=new Array({revision:'NLHRuWqfd833', url:'/manifest.json'},{revision:'TIKpeiTK9QoJ', url:'/'},{revision:'TIKpeiTK9ioJ', url:'/?standalone=true#/'},{revision:'s2Uf3DA5dMPQ',url:'/WurzelIcon.png'},{revision:'2XrpcJQ7AWod', url:dataUrl});
 async function fetchAndPrecacheManifest() {
   try {
     const response = await fetch('_nuxt/wb_manifest.json');
@@ -44,6 +44,8 @@ self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', () => self.clients.claim())
 
 
+self.addEventListener('fetch', (event) => {
+  console.log('Fetch event:', event);})
 
 // function reloadAllClients() {
 //   self.clients.matchAll().then(clients => {
@@ -134,5 +136,4 @@ registerRoute(
 precacheAndRoute(wb_manifest,{cleanURLs:true});
 
 fetch('_nuxt/wb_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true});console.log('res',res)});
-
 
