@@ -1,7 +1,28 @@
 const options = <%= JSON.stringify(options) %>
 
+function storeGif(){
+
+// The base64-encoded image data
+const base64Image = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+
+// Convert base64 to binary
+const binaryImage = atob(base64Image);
+
+// Convert binary to ArrayBuffer
+const arrayBufferImage = new Uint8Array(binaryImage.length);
+for (let i = 0; i < binaryImage.length; i++) {
+  arrayBufferImage[i] = binaryImage.charCodeAt(i);
+}
+
+// Create a Blob from ArrayBuffer
+const blobImage = new Blob([arrayBufferImage], { type: 'image/gif' });
+
+return blobImage
+}
+const dataUrl=storeGif();
+
 importScripts(options.workboxUrl)
-const wb_manifest=new Array({revision:'NLHRuWqfd833', url:'/manifest.json'},{revision:'TIKpeiTK9QoJ', url:'/'},{revision:'s2Uf3DA5dMPQ',url:'/WurzelIcon.png'});
+const wb_manifest=new Array({revision:'NLHRuWqfd833', url:'/manifest.json'},{revision:'TIKpeiTK9QoJ', url:'/'},{revision:'s2Uf3DA5dMPQ',url:'/WurzelIcon.png'},{revision:'2XrpcJQ7AWod', url:dataUrl});
 async function fetchAndPrecacheManifest() {
   try {
     const response = await fetch('_nuxt/wb_manifest.json');
@@ -33,42 +54,7 @@ self.addEventListener('activate', () => self.clients.claim())
 // }
 
 
-// self.addEventListener('install', (event) => {
-//   event.waitUntil(
-//     fetch('_nuxt/wb_manifest.json')
-//       .then(response => response.json())
-//       .then(filesToCache => {
-//         // Get all cache names
-//         return caches.keys().then(cacheNames=>cacheNames).then(cacheNames => {
-//           // Delete all existing caches
-//           return Promise.all(
-//             cacheNames.map(cacheName => caches.delete(cacheName))
-//           );
-//         })
-//         .then(()=>console.log('filestocache',filesToCache)).then(() => {
-//           // Open a new cache and add files to it
-//           return caches.open('your-cache-name').then(cache => {
-//             return Promise.all(
-//               filesToCache.map(file => {
-//                 return cache.add(file.url);
-//               })
-//             );
-//           });
-//         });
-//       })
-//   );
-// });
 
-
-
-// self.addEventListener('fetch', (event) => {
-//   // console.log('event.request',event.request)
-//   event.respondWith(
-//     caches.match(event.request).then(response => {
-//       return response || fetch(event.request);
-//     })
-//   );
-// });
 
 const { registerRoute } = workbox.routing
 const { NetworkFirst, StaleWhileRevalidate, CacheFirst } = workbox.strategies
@@ -78,45 +64,47 @@ const { precacheAndRoute } = workbox.precaching
 
 
 // Cache page navigations (html) with a Network First strategy
-registerRoute(
-  ({ request }) => {
-    return request.mode === 'navigate'
-  },
-  new NetworkFirst({
-    cacheName: 'pages',
-    plugins: [
-      new CacheableResponsePlugin({ statuses: [200] })
-    ]
-  })
-)
+// registerRoute(
+//   ({ request }) => {
+//     return request.mode === 'navigate'
+//   },
+//   new NetworkFirst({
+//     cacheName: 'pages',
+//     plugins: [
+//       new CacheableResponsePlugin({ statuses: [200] })
+//     ]
+//   })
+// )
 
 // Cache Web Manifest, CSS, JS, and Web Worker requests with a Stale While Revalidate strategy
-registerRoute(
-  ({ request }) =>
-    request.destination === 'manifest' ||
-    request.destination === 'style' ||
-    request.destination === 'script' ||
-    request.destination === 'worker',
-  new StaleWhileRevalidate({
-    cacheName: 'assets',
-    plugins: [
-      new CacheableResponsePlugin({ statuses: [200] })
-    ]
-  })
-)
 
-// Cache images with a Cache First strategy
-registerRoute(
-  ({ request }) => request.destination === 'image',
-  new CacheFirst({
-    cacheName: 'images',
-    plugins: [
-      new CacheableResponsePlugin({ statuses: [200] }),
-      // 50 entries max, 30 days max
-      new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
-    ]
-  })
-)
+
+// registerRoute(
+//   ({ request }) =>
+//     request.destination === 'manifest' ||
+//     request.destination === 'style' ||
+//     request.destination === 'script' ||
+//     request.destination === 'worker',
+//   new StaleWhileRevalidate({
+//     cacheName: 'assets',
+//     plugins: [
+//       new CacheableResponsePlugin({ statuses: [200] })
+//     ]
+//   })
+// )
+
+// // Cache images 
+// registerRoute(
+//   ({ request }) => request.destination === 'image',
+//   new StaleWhileRevalidate({
+//     cacheName: 'images',
+//     plugins: [
+//       new CacheableResponsePlugin({ statuses: [200] }),
+//       // 50 entries max, 30 days max
+//       new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
+//     ]
+//   })
+// )
 
 
 registerRoute(
@@ -141,10 +129,10 @@ registerRoute(
   })
 );
 
-async function precacheStatic(){
-  precacheAndRoute(wb_manifest);
-}
-//precacheAndRoute(wb_manifest);
-// fetch('_nuxt/wb_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true})});
+
+
+precacheAndRoute(wb_manifest,{cleanURLs:true});
+
+fetch('_nuxt/wb_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true});console.log('res',res)});
 
 
