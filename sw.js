@@ -1,62 +1,14 @@
 const options = <%= JSON.stringify(options) %>
 
-function storeGif(){
-
-// The base64-encoded image data
-const base64Image = 'R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-
-// Convert base64 to binary
-const binaryImage = atob(base64Image);
-
-// Convert binary to ArrayBuffer
-const arrayBufferImage = new Uint8Array(binaryImage.length);
-for (let i = 0; i < binaryImage.length; i++) {
-  arrayBufferImage[i] = binaryImage.charCodeAt(i);
-}
-
-// Create a Blob from ArrayBuffer
-const blobImage = new Blob([arrayBufferImage], { type: 'image/gif' });
-
-return blobImage
-}
-const dataUrl=storeGif();
-
+//get workbox 
 importScripts(options.workboxUrl)
-const wb_manifest=new Array({revision:'NLHRuWqfd833', url:'/manifest.json'},{revision:'TIKpeiTK9QoJ', url:'/'},{revision:'TIKpeiTK9ioJ', url:'/?standalone=true#/'},{revision:'s2Uf3DA5dMPQ',url:'/WurzelIcon.png'},{revision:'2XrpcJQ7AWod', url:dataUrl});
-async function fetchAndPrecacheManifest() {
-  try {
-    const response = await fetch('_nuxt/wb_manifest.json');
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch manifest file`);
-    }
 
-    response.json().then((manifestData)=>{manifestData.map((e)=>wb_manifest.push(e))});
-    // Precache routes based on the manifest  
-  } catch (error) {
-    console.error('Error fetching or precaching manifest:', error);
-  }
-}
+//static files for precache manifest
+const wb_manifest=new Array({revision:'NLHRuWqfd844', url:'/manifest.json'},{revision:'TIKpeiTK9QoJ', url:'/'},{revision:'TIKpeiTK9ioJ', url:'/?standalone=true#/'},{revision:'s2Uf3DA5dMPQ',url:'/WurzelIcon.png'});
 
-//self.addEventListener('install', (event) => event.waitUntil(precacheStatic().then(()=>self.skipWaiting())))
-
+//make sw take control immediately and all clients
 self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', () => self.clients.claim())
-
-
-self.addEventListener('fetch', (event) => {
-  console.log('Fetch event:', event);})
-
-// function reloadAllClients() {
-//   self.clients.matchAll().then(clients => {
-//     clients.forEach(client => {
-//       client.postMessage({ action: 'reload' });
-//     });
-//   });
-// }
-
-
-
 
 const { registerRoute } = workbox.routing
 const { NetworkFirst, StaleWhileRevalidate, CacheFirst } = workbox.strategies
@@ -64,7 +16,7 @@ const { CacheableResponsePlugin } = workbox.cacheableResponse
 const { ExpirationPlugin } = workbox.expiration
 const { precacheAndRoute } = workbox.precaching
 
-
+const version=2;
 // Cache page navigations (html) with a Network First strategy
 // registerRoute(
 //   ({ request }) => {
@@ -108,7 +60,7 @@ const { precacheAndRoute } = workbox.precaching
 //   })
 // )
 
-
+//runtime cache contentful requests
 registerRoute(
   ({ request }) => request.url && request.url.startsWith('https://cdn.contentful.com'),
   new CacheFirst({
@@ -120,6 +72,7 @@ registerRoute(
   })
 );
 
+//runtime cache metafile
 registerRoute(
   ({ request }) => request.url && request.url.includes('/_nuxt/builds/meta/'),
   new CacheFirst({
@@ -131,9 +84,10 @@ registerRoute(
   })
 );
 
-
-
+//precache static files
 precacheAndRoute(wb_manifest,{cleanURLs:true});
 
-fetch('_nuxt/wb_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true});console.log('res',res)});
+//fetch and cache precache-manifest 
+fetch('_nuxt/_v15_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true});console.log('res',res)});
+
 

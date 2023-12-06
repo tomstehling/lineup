@@ -34,18 +34,13 @@
 </template>
 
 <script setup>
-import { NCard, NButton, backTopDark } from "naive-ui";
+import { NCard, NButton } from "naive-ui";
 import { inject } from "vue";
-import { MenuOutline, Heart, HeartDislike } from "@vicons/ionicons5";
+import { Heart, HeartDislike } from "@vicons/ionicons5";
 const props = defineProps({
   content: Object,
 });
-const { getWishlist, addWishlist, removeWishlist, checkWishlist } =
-  inject("wishlist");
-
-const getTimeSlot = (dateString) => {
-  return dateString.split("T")[1];
-};
+const { addWishlist, removeWishlist, checkWishlist } = inject("wishlist");
 </script>
 <style>
 .n-card {
