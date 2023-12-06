@@ -1,16 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { readdirSync, writeFileSync } from "fs";
-import { join, resolve } from "path";
-import { create_wb_manifest, wb_manifest } from "./create_wb-manifest";
+import { writeFileSync } from "fs";
+import { resolve } from "path";
+import { create_wb_manifest } from "./create_wb-manifest";
 
 /**
  * @type {import('@nuxt/types').NuxtConfig}
  */
 export default defineNuxtConfig({
   hooks: {
+    //fetch pre-rendered files during build time and create precache-manifest
     "build:manifest"(manifest) {
       let manifestArr = new Array();
-      console.log("manifestRaw", manifest);
       for (const key in manifest) {
         if (manifest.hasOwnProperty(key)) {
           const entry = manifest[key];
@@ -22,18 +22,9 @@ export default defineNuxtConfig({
       const wb_manifest = create_wb_manifest(manifestArr);
       const filePath = resolve(
         __dirname,
-        ".nuxt/dist/client/_nuxt/wb_manifest.json"
+        ".nuxt/dist/client/_nuxt/_v15_manifest.json"
       );
       writeFileSync(filePath, JSON.stringify(wb_manifest));
-      // const jsonString = JSON.stringify(manifestArr, null, 2); // Use null, 2 for pretty formatting
-      // const filePath = resolve(__dirname, "wb_manifest.json");
-
-      // // Write JSON string to file
-      // writeFileSync(filePath, jsonString, "utf-8");
-    },
-
-    "nitro:build:before"(nitro) {
-      //
     },
   },
   ssr: false,
@@ -43,7 +34,7 @@ export default defineNuxtConfig({
     options: { hashMode: true },
   },
   modules: ["@kevinmarrec/nuxt-pwa"],
-
+  //pwa config..
   pwa: {
     manifest: {
       name: "Wurzelfestival",
@@ -61,12 +52,14 @@ export default defineNuxtConfig({
     workbox: {
       templatePath: "./sw.js",
       preCaching: ["/#/", "/#/timetable", "/#/map"],
-      // enabled: true,
+      // enabled: true,//enable workbox in dev mode
     },
   },
-  alias: {
-    "#pwa": "./.nuxt/types/pwa",
-  },
+
+  //tried to fix ts.config base url is not set error, worked for some time but not anymore
+  // alias: {
+  //   "#pwa": "./.nuxt/types/pwa",
+  // },
   app: {
     head: {
       charset: "utf-8",
@@ -77,6 +70,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ["naive-ui", "vueuc", "contentful", "vue-i18n"],
   },
+  //disable app manifest cuz dont know wtf its good for. Needs to be precached if used. also dont know how to precache it.
   experimental: {
     appManifest: false,
   },

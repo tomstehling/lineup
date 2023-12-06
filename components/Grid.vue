@@ -22,21 +22,9 @@
 import { ref, onMounted } from "vue";
 const rows = ref([]);
 
-onMounted(() => {
-  //   for (let element of rows.value) {
-  //     if (element.getAttribute("id") === props.focusedId) {
-  //       console.log(element);
-  //       element.scrollIntoView();
-  //     }
-  //   }
-});
+onMounted(() => {});
 const props = defineProps({
   entries: Object,
   focusedId: String,
 });
 </script>
-<style>
-/* .scroll {
-  overflow: auto;
-} */
-</style>

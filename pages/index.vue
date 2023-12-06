@@ -1,6 +1,7 @@
 <template>
-  <n-space vertical justify="center" style="height: 100%"
-    ><n-space justify="center">
+  <n-space vertical justify="center" style="height: 100%">
+    <n-space justify="center"></n-space>
+    <n-space justify="center">
       <n-button
         type="info"
         @click="
@@ -19,7 +20,7 @@
             navigateTo('timetable');
           }
         "
-        >Englisch</n-button
+        >English</n-button
       ></n-space
     >
   </n-space>
@@ -27,16 +28,8 @@
 
 <script setup>
 import { getEntries } from "../contentful/contentfulAPI";
-import { inject, provide } from "vue";
-import { useRoute } from "vue-router";
-const route = useRoute();
-let isLoading = ref(true);
-const showWishlist = ref(route.query.showWishlist);
-const lineup = reactive([]);
-const festivalDates = reactive([]);
-const floors = reactive([]);
 
-const getLineup = async () => {
+const fetchContentful = async () => {
   if ("serviceWorker" in navigator) {
     const status = await navigator.serviceWorker.ready;
     console.log("service-worker ready", status);
@@ -49,44 +42,14 @@ const getLineup = async () => {
       const combinedTimetable = await getEntries({
         content_type: "zeitplan",
       });
-      console.log("zeitplan:", combinedTimetable);
-
-      combinedTimetable.map((e) => {
-        lineup.push(e);
-      });
-      days.map((e) => {
-        festivalDates.push(e);
-      });
-      stages.map((e) => {
-        floors.push(e);
-      });
     } finally {
       console.log("data fetch finished");
     }
   }
 };
-async function cacheAppManifest() {
-  if ("serviceWorker" in navigator) {
-    const cache = await caches.open("metaFile").then((cache) => {
-      // Your object to be cached
-      const metaFile = {
-        id: "d6194723-758d-4805-b2e2-417e408f129d",
-        timestamp: 1701253776714,
-        matcher: { static: {}, wildcard: {}, dynamic: {} },
-        prerendered: [],
-      };
-      const metaFileJson = JSON.stringify(metaFile);
-      // Add the JSON string to the cache
-      return cache.put(
-        "metaFile",
-        new Response(metaFileJson, {
-          headers: { "Content-Type": "application/json" },
-        })
-      );
-    });
-  }
-}
+
 onMounted(() => {
-  //getLineup().then(cacheAppManifest());
+  //request api data, to trigger sw runtime caching
+  fetchContentful();
 });
 </script>
