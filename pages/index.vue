@@ -1,6 +1,8 @@
 <template>
   <n-space vertical justify="center" style="height: 100%">
-    <n-space justify="center"></n-space>
+    <n-space justify="center"
+      ><n-image width="100" src="/WurzelIcon.png"
+    /></n-space>
     <n-space justify="center">
       <n-button
         type="info"

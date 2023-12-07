@@ -4,7 +4,7 @@ const options = <%= JSON.stringify(options) %>
 importScripts(options.workboxUrl)
 
 //static files for precache manifest
-const wb_manifest=new Array({revision:'NLHRuWqfd844', url:'/manifest.json'},{revision:'TIKpeiTK9QoJ', url:'/'},{revision:'TIKpeiTK9ioJ', url:'/?standalone=true#/'},{revision:'s2Uf3DA5dMPQ',url:'/WurzelIcon.png'});
+//const wb_manifest=new Array({revision:null, url:'/manifest.json'});
 
 //make sw take control immediately and all clients
 self.addEventListener('install', () => self.skipWaiting())
@@ -16,7 +16,7 @@ const { CacheableResponsePlugin } = workbox.cacheableResponse
 const { ExpirationPlugin } = workbox.expiration
 const { precacheAndRoute } = workbox.precaching
 
-const version=2;
+const version=3;
 // Cache page navigations (html) with a Network First strategy
 // registerRoute(
 //   ({ request }) => {
@@ -72,22 +72,23 @@ registerRoute(
   })
 );
 
-//runtime cache metafile
-registerRoute(
-  ({ request }) => request.url && request.url.includes('/_nuxt/builds/meta/'),
-  new CacheFirst({
-    cacheName: 'metaFile',
-    plugins: [
-      new CacheableResponsePlugin({ statuses: [200] }),
-      new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
-    ]
-  })
-);
+// //runtime cache metafile
+// registerRoute(
+//   ({ request }) => request.url && request.url.includes('/_nuxt/builds/meta/'),
+//   new CacheFirst({
+//     cacheName: 'metaFile',
+//     plugins: [
+//       new CacheableResponsePlugin({ statuses: [200] }),
+//       new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
+//     ]
+//   })
+// );
 
 //precache static files
-precacheAndRoute(wb_manifest,{cleanURLs:true});
+precacheAndRoute(options.preCaching,{cleanURLs:true});
 
 //fetch and cache precache-manifest 
-fetch('_nuxt/_v15_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true});console.log('res',res)});
+fetch('_nuxt/_v7_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true});console.log('res',res)});
+
 
 

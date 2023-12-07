@@ -10,6 +10,8 @@ export default defineNuxtConfig({
   hooks: {
     //fetch pre-rendered files during build time and create precache-manifest
     "build:manifest"(manifest) {
+      //insert static paths to preccache into manifestStatic
+      const manifestStatic = new Array();
       let manifestArr = new Array();
       for (const key in manifest) {
         if (manifest.hasOwnProperty(key)) {
@@ -19,10 +21,10 @@ export default defineNuxtConfig({
           }
         }
       }
-      const wb_manifest = create_wb_manifest(manifestArr);
+      const wb_manifest = create_wb_manifest(manifestArr, manifestStatic);
       const filePath = resolve(
         __dirname,
-        ".nuxt/dist/client/_nuxt/_v15_manifest.json"
+        ".nuxt/dist/client/_nuxt/_v7_manifest.json"
       );
       writeFileSync(filePath, JSON.stringify(wb_manifest));
     },
@@ -51,7 +53,12 @@ export default defineNuxtConfig({
     },
     workbox: {
       templatePath: "./sw.js",
-      preCaching: ["/#/", "/#/timetable", "/#/map"],
+      preCaching: [
+        "/",
+        "/manifest.json",
+        "/?standalone=true#/",
+        "/WurzelIcon.png",
+      ],
       // enabled: true,//enable workbox in dev mode
     },
   },
