@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider :theme="darkTheme" :theme-overrides="themeOverrides">
     <n-loading-bar-provider>
       <n-message-provider>
         <n-notification-provider>
@@ -30,6 +30,9 @@
 </template>
 <script setup>
 import { darkTheme } from "naive-ui";
+const themeOverrides = {
+  // ...
+};
 </script>
 <style>
 html,
