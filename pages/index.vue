@@ -13,7 +13,7 @@
             navigateTo('timetable');
           }
         "
-        >De</n-button
+        >DE</n-button
       >
       <n-button
         round
@@ -24,9 +24,9 @@
             navigateTo('timetable');
           }
         "
-        >En</n-button
-      ></n-space
-    >
+        >EN</n-button
+      >
+    </n-space>
   </n-space>
 </template>
 

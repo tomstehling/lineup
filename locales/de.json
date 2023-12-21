@@ -7,5 +7,6 @@
   "all": "Alle",
   "weekdays": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
   "startAddWishlist": "Füge Deine Favoriten hinzu!",
-  "noEntriesAvailable": "Keine Einträge gefunden :("
+  "noEntriesAvailable": "Keine Einträge gefunden :(",
+  "emergency": "Notfall"
 }

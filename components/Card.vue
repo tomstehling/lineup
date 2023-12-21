@@ -13,7 +13,7 @@
         round
         strong
         secondary
-        :type="!checkWishlist({ ...props.content }) ? 'tertiary' : 'primary'"
+        :type="!checkWishlist({ ...props.content }) ? 'tertiary' : 'success'"
         @click="
           () => {
             if (!checkWishlist({ ...props.content })) {

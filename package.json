@@ -21,6 +21,7 @@
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^16.2.0",
     "contentful": "^10.6.4",
+    "contentful-rich-text-vue-renderer": "^3.1.0",
     "naive-ui": "^2.35.0",
     "vue-i18n": "^9.6.5"
   }

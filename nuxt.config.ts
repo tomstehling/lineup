@@ -27,13 +27,16 @@ export default defineNuxtConfig({
   //   transpile: ["naive-ui", "vueuc", "contentful", "vue-i18n"],
   // },
 
-  //###########
+  // ###########
   // PWA stuff. Keep commented out for development
-  //###########
+  // ###########
+  //    |
+  //    |
+  //    v
+
   // hooks: {
   //   //fetch pre-rendered files during build time and create precache-manifest
   //   "build:manifest"(manifest) {
-  //
   //     let manifestArr = new Array();
   //     for (const key in manifest) {
   //       if (manifest.hasOwnProperty(key)) {
@@ -68,17 +71,16 @@ export default defineNuxtConfig({
   //     description: "Zurueck zu den Wurzeln",
   //     theme_color: "#000000",
   //   },
-  //   workbox:
-  //   //  {
-  //   //   templatePath: "./sw.js",
-  //   //   preCaching: [
-  //   //     "/",
-  //   //     "/manifest.json",
-  //   //     "/?standalone=true#/",
-  //   //     "/WurzelIcon.png",
-  //   //   ],
-  //   //   // enabled: true,//enable workbox in dev mode
-  //   // },
+  //   workbox: {
+  //     templatePath: "./sw.js",
+  //     preCaching: [
+  //       "/",
+  //       "/manifest.json",
+  //       "/?standalone=true#/",
+  //       "/WurzelIcon.png",
+  //     ],
+  //     // enabled: true,//enable workbox in dev mode
+  //   },
   // },
 
   //tried to fix ts.config base url is not set error, worked for some time but not anymore
