@@ -5,6 +5,7 @@
     /></n-space>
     <n-space justify="center">
       <n-button
+        round
         type="info"
         @click="
           () => {
@@ -12,9 +13,10 @@
             navigateTo('timetable');
           }
         "
-        >Deutsch</n-button
+        >DE</n-button
       >
       <n-button
+        round
         type="info"
         @click="
           () => {
@@ -22,9 +24,9 @@
             navigateTo('timetable');
           }
         "
-        >English</n-button
-      ></n-space
-    >
+        >EN</n-button
+      >
+    </n-space>
   </n-space>
 </template>
 

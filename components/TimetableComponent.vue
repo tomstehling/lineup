@@ -5,7 +5,7 @@
         ><n-tag
           v-for="(e, index) of props.floors"
           :bordered="checked[index]"
-          :type="checked[index] ? 'success' : ''"
+          :type="checked[index] ? 'info' : ''"
           @click="checked[index] = !checked[index]"
           >{{ e.floorname }}</n-tag
         ></n-space

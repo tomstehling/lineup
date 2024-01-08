@@ -7,11 +7,36 @@ import { create_wb_manifest } from "./create_wb-manifest";
  * @type {import('@nuxt/types').NuxtConfig}
  */
 export default defineNuxtConfig({
+  ssr: false,
+
+  devtools: { enabled: true },
+  router: {
+    options: { hashMode: true },
+  },
+  app: {
+    head: {
+      charset: "utf-8",
+      viewport: "width=device-width, initial-scale=1 , user-scalable=0",
+    },
+    baseURL: "/",
+  },
+  experimental: {
+    appManifest: false,
+  },
+  build: {
+    transpile: ["naive-ui", "vueuc", "contentful", "vue-i18n"],
+  },
+
+  // ###########
+  // PWA stuff. Keep commented out for development
+  // ###########
+  //    |
+  //    |
+  //    v
+
   hooks: {
     //fetch pre-rendered files during build time and create precache-manifest
     "build:manifest"(manifest) {
-      //insert static paths to preccache into manifestStatic
-      const manifestStatic = new Array();
       let manifestArr = new Array();
       for (const key in manifest) {
         if (manifest.hasOwnProperty(key)) {
@@ -21,20 +46,15 @@ export default defineNuxtConfig({
           }
         }
       }
-      const wb_manifest = create_wb_manifest(manifestArr, manifestStatic);
+      const wb_manifest = create_wb_manifest(manifestArr);
       const filePath = resolve(
         __dirname,
-        ".nuxt/dist/client/_nuxt/_v7_manifest.json"
+        ".nuxt/dist/client/_nuxt/_v9_manifest.json"
       );
       writeFileSync(filePath, JSON.stringify(wb_manifest));
     },
   },
-  ssr: false,
 
-  devtools: { enabled: true },
-  router: {
-    options: { hashMode: true },
-  },
   modules: ["@kevinmarrec/nuxt-pwa"],
   //pwa config..
   pwa: {
@@ -67,18 +87,4 @@ export default defineNuxtConfig({
   // alias: {
   //   "#pwa": "./.nuxt/types/pwa",
   // },
-  app: {
-    head: {
-      charset: "utf-8",
-      viewport: "width=device-width, initial-scale=1 , user-scalable=0",
-    },
-    baseURL: "/",
-  },
-  build: {
-    transpile: ["naive-ui", "vueuc", "contentful", "vue-i18n"],
-  },
-  //disable app manifest cuz dont know wtf its good for. Needs to be precached if used. also dont know how to precache it.
-  experimental: {
-    appManifest: false,
-  },
 });

@@ -12,7 +12,7 @@
     <n-text tag="div" class="ui-logo">
       <img src="/WurzelIcon.png" @click="navigateTo('')" />
     </n-text>
-    <div></div>
+    <n-space justify="center"><n-text> WURZELFESTIVAL </n-text></n-space>
     <n-popover
       ref="menuPopoverRef"
       style="padding: 0; width: 288px"
@@ -33,7 +33,7 @@
           :render-label="renderMenuLabel"
           @update:value="handleUpdateMobileMenu"
         />
-        <n-alert title="Notfall" type="warning">
+        <n-alert :title="t('emergency')" type="warning">
           <n-el
             tag="a"
             :href="`tel:${emergencyHotline}`"
@@ -53,8 +53,13 @@ import type { RouteLocationPathRaw } from "vue-router";
 import { useI18n } from "vue-i18n";
 const route = useRoute();
 const { t } = useI18n();
+const locale = useI18n();
 const menuPopoverRef = ref<null | { setShow: (value: boolean) => null }>(null);
-
+interface ContentPage {
+  name: string;
+  nameDe?: string;
+}
+const props = defineProps({ contentPages: Array<ContentPage> });
 const renderMenuLabel = (option: { label: string; path: any }) => {
   return option.label;
 };
@@ -63,14 +68,28 @@ const mobileMenuOptionsRef = computed(() => {
     {
       key: "timetable",
       label: t("timetable"),
-      path: "timetable",
+      path: "/timetable",
     },
     {
       key: "map",
       label: t("map"),
-      path: "map",
+      path: "/map",
     },
+    ...contentPagesMenuRefs.value,
   ];
+});
+
+const contentPagesMenuRefs = computed(() => {
+  let arr = new Array();
+  for (const contentPage of props.contentPages!) {
+    arr.push({
+      key: contentPage.name,
+      label:
+        locale.locale.value === "en" ? contentPage.name : contentPage.nameDe,
+      path: `/contentPages/${contentPage.name.toLowerCase()}`,
+    });
+  }
+  return arr;
 });
 
 const mobileMenuValueRef = computed(() => {

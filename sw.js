@@ -3,9 +3,6 @@ const options = <%= JSON.stringify(options) %>
 //get workbox 
 importScripts(options.workboxUrl)
 
-//static files for precache manifest
-//const wb_manifest=new Array({revision:null, url:'/manifest.json'});
-
 //make sw take control immediately and all clients
 self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', () => self.clients.claim())
@@ -16,49 +13,40 @@ const { CacheableResponsePlugin } = workbox.cacheableResponse
 const { ExpirationPlugin } = workbox.expiration
 const { precacheAndRoute } = workbox.precaching
 
-const version=3;
-// Cache page navigations (html) with a Network First strategy
-// registerRoute(
-//   ({ request }) => {
-//     return request.mode === 'navigate'
-//   },
-//   new NetworkFirst({
-//     cacheName: 'pages',
-//     plugins: [
-//       new CacheableResponsePlugin({ statuses: [200] })
-//     ]
-//   })
-// )
+//precache static files
+precacheAndRoute(options.preCaching,{cleanURLs:true});
 
-// Cache Web Manifest, CSS, JS, and Web Worker requests with a Stale While Revalidate strategy
+//fetch and cache precache-manifest 
+fetch('_nuxt/_v9_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true});console.log('res',res)});
 
 
-// registerRoute(
-//   ({ request }) =>
-//     request.destination === 'manifest' ||
-//     request.destination === 'style' ||
-//     request.destination === 'script' ||
-//     request.destination === 'worker',
-//   new StaleWhileRevalidate({
-//     cacheName: 'assets',
-//     plugins: [
-//       new CacheableResponsePlugin({ statuses: [200] })
-//     ]
-//   })
-// )
+//Cache Web Manifest, CSS, JS, and Web Worker requests with a Stale While Revalidate strategy
+registerRoute(
+  ({ request }) =>
+    request.destination === 'manifest' ||
+    request.destination === 'style' ||
+    request.destination === 'script' ||
+    request.destination === 'worker',
+  new StaleWhileRevalidate({
+    cacheName: 'assets',
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [200] })
+    ]
+  })
+)
 
-// // Cache images 
-// registerRoute(
-//   ({ request }) => request.destination === 'image',
-//   new StaleWhileRevalidate({
-//     cacheName: 'images',
-//     plugins: [
-//       new CacheableResponsePlugin({ statuses: [200] }),
-//       // 50 entries max, 30 days max
-//       new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
-//     ]
-//   })
-// )
+// Cache images 
+registerRoute(
+  ({ request }) => request.destination === 'image',
+  new StaleWhileRevalidate({
+    cacheName: 'images',
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [200] }),
+      // 50 entries max, 30 days max
+      new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
+    ]
+  })
+)
 
 //runtime cache contentful requests
 registerRoute(
@@ -71,24 +59,4 @@ registerRoute(
     ]
   })
 );
-
-// //runtime cache metafile
-// registerRoute(
-//   ({ request }) => request.url && request.url.includes('/_nuxt/builds/meta/'),
-//   new CacheFirst({
-//     cacheName: 'metaFile',
-//     plugins: [
-//       new CacheableResponsePlugin({ statuses: [200] }),
-//       new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
-//     ]
-//   })
-// );
-
-//precache static files
-precacheAndRoute(options.preCaching,{cleanURLs:true});
-
-//fetch and cache precache-manifest 
-fetch('_nuxt/_v7_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true});console.log('res',res)});
-
-
 

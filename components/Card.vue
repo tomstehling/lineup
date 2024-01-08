@@ -8,12 +8,12 @@
         {{ props.content.floors.floorname }}
       </n-tag>
     </n-space>
-    <template #footer>
+    <template #header-extra>
       <n-button
         round
         strong
         secondary
-        :type="!checkWishlist({ ...props.content }) ? 'tertiary' : 'primary'"
+        :type="!checkWishlist({ ...props.content }) ? 'tertiary' : 'success'"
         @click="
           () => {
             if (!checkWishlist({ ...props.content })) {
@@ -23,13 +23,12 @@
             }
           }
         "
-        ><n-space>
-          <n-icon size="20">
-            <heart v-if="!checkWishlist({ ...props.content })" />
-            <heart-dislike
-              v-if="checkWishlist({ ...props.content })"
-            /> </n-icon></n-space></n-button
-    ></template>
+      >
+        <n-icon size="20">
+          <heart v-if="!checkWishlist({ ...props.content })" />
+          <heart-dislike v-if="checkWishlist({ ...props.content })" /> </n-icon
+      ></n-button>
+    </template>
   </n-card>
 </template>
 
