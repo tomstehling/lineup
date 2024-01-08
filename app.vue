@@ -72,6 +72,7 @@ async function getEmergencyNumber() {
   } finally {
   }
 }
+
 onMounted(() => {
   getContentPagesForNavigation();
   getEmergencyNumber();

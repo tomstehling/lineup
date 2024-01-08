@@ -17,7 +17,7 @@ const { precacheAndRoute } = workbox.precaching
 precacheAndRoute(options.preCaching,{cleanURLs:true});
 
 //fetch and cache precache-manifest 
-fetch('_nuxt/_v8_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true});console.log('res',res)});
+fetch('_nuxt/_v9_manifest.json').then(res=>res.json()).then(res=>{precacheAndRoute(res,{cleanURLs:true});console.log('res',res)});
 
 
 //Cache Web Manifest, CSS, JS, and Web Worker requests with a Stale While Revalidate strategy
