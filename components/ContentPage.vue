@@ -1,12 +1,14 @@
 <template>
-  <n-card :title="props.page.name">
-    <div v-for="rte in props.page.contents">
-      <RichTextRenderer
-        :document="rte.richText"
-        :nodeRenderers="renderNodes()"
-      />
-    </div>
-  </n-card>
+  <n-layout position="relative">
+    <n-card :title="props.page.name">
+      <div v-for="rte in props.page.contents">
+        <RichTextRenderer
+          :document="rte.richText"
+          :nodeRenderers="renderNodes()"
+        />
+      </div>
+    </n-card>
+  </n-layout>
 </template>
 <script setup>
 import RichTextRenderer from "contentful-rich-text-vue-renderer";
