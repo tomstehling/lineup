@@ -8,5 +8,6 @@
   "weekdays": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
   "startAddWishlist": "Start adding your favorites!!",
   "noEntriesAvailable": "No entries available :(",
-  "emergency": "Emergency"
+  "emergency": "Emergency",
+  "pwaHint": "You can add this app to your homescreen! Click the share button -> add to homescreen-> open the app to get full offline access!!!"
 }

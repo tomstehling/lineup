@@ -8,5 +8,6 @@
   "weekdays": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
   "startAddWishlist": "Füge Deine Favoriten hinzu!",
   "noEntriesAvailable": "Keine Einträge gefunden :(",
-  "emergency": "Notfall"
+  "emergency": "Notfall",
+  "pwaHint": "Du kannst diese App zu deinem Startbildschirm hinzufügen: Klick im Browsermenü auf teilen und dann Zum Startbildschirm hinzufügen. Einmal geöffnet ist die App auch ohne Internetverbindung nutzbar!"
 }

@@ -60,7 +60,6 @@ onMounted(async () => {
         name: e.name.toLowerCase(),
         ariaLabel: e.iconLink.ariaLabel,
       });
-      console.log(footerObjects);
     });
   } catch (e) {
     console.log(e);

@@ -49,7 +49,7 @@ export default defineNuxtConfig({
       const wb_manifest = create_wb_manifest(manifestArr);
       const filePath = resolve(
         __dirname,
-        ".nuxt/dist/client/_nuxt/_v9_manifest.json"
+        ".nuxt/dist/client/_nuxt/_v1_manifest.json"
       );
       writeFileSync(filePath, JSON.stringify(wb_manifest));
     },
@@ -78,13 +78,13 @@ export default defineNuxtConfig({
         "/manifest.json",
         "/?standalone=true#/",
         "/WurzelIcon.png",
+        "/font/SecretForest-Medium.otf",
       ],
       // enabled: true,//enable workbox in dev mode
     },
   },
 
-  //tried to fix ts.config base url is not set error, worked for some time but not anymore
-  // alias: {
-  //   "#pwa": "./.nuxt/types/pwa",
-  // },
+  alias: {
+    "#pwa": "./.nuxt/types/pwa",
+  },
 });
