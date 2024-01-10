@@ -88,9 +88,8 @@ const checkStandalone = () => {
 const fetchContentful = async () => {
   if ("serviceWorker" in navigator) {
     const status = await navigator.serviceWorker.ready;
-    console.log("service-worker ready", status);
+
     try {
-      console.log("start fetching");
       //making the fist fetch twice, because otherwise the sw cant hook up on it.dont know why, but wont work otherwise
       const notDays = await getEntries({ content_type: "tage" });
       const days = await getEntries({ content_type: "tage" });
@@ -98,8 +97,8 @@ const fetchContentful = async () => {
       const combinedTimetable = await getEntries({
         content_type: "zeitplan",
       });
-    } finally {
-      console.log("data fetch finished");
+    } catch (e) {
+      console.log(e);
     }
   }
 };

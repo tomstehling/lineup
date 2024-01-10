@@ -113,7 +113,6 @@ function handleUpdateMobileMenu(
   key: String,
   { path }: { path: RouteLocationPathRaw }
 ) {
-  console.log(key, path);
   if (menuPopoverRef.value !== null) {
     menuPopoverRef.value.setShow(false);
   }

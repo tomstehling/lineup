@@ -3,12 +3,15 @@
     <n-space v-if="isLoading" vertical justify="center" style="height: 100%">
       <n-space justify="center"><n-spin size="medium" /></n-space>
     </n-space>
-    <img v-else :src="areaPlanUrl" />
+
+    <n-image v-else :src="areaPlanUrl" :width="screenWidth" />
   </div>
 </template>
 <script setup lang="ts">
 import { getEntries } from "~/contentful/contentfulAPI";
 import { onMounted } from "vue";
+const screenWidth = ref(0);
+
 const isLoading = ref(true);
 let areaPlanUrl: string;
 onMounted(async () => {
@@ -16,19 +19,17 @@ onMounted(async () => {
     const result = await getEntries({ content_type: "map" });
     result.map((e) => {
       areaPlanUrl = e.lageplan.url;
-      console.log(e.lageplan.url);
-      console.log(e);
     });
   } catch (e) {
     console.log(e);
   } finally {
+    screenWidth.value = window.innerWidth;
     isLoading.value = false;
   }
 });
 </script>
 <style scoped>
-img {
-  max-width: 100%;
-  height: auto;
+.fit-screen {
+  height: 100%;
 }
 </style>
