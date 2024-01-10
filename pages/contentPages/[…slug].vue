@@ -31,8 +31,6 @@ let thisPage: Page = {
 async function fetchPages() {
   try {
     const res = await getEntries({ content_type: "pages" });
-    console.log("res", res);
-    console.log(route.params.slug);
     res
       .filter((page) => page.name.toLowerCase() === route.params.slug)
       .map((page) => {
@@ -47,7 +45,6 @@ async function fetchPages() {
   } catch (e) {
     console.log("Error", e);
   } finally {
-    console.log("thispage", thisPage);
     isLoading.value = false;
   }
 }
