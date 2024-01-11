@@ -60,16 +60,15 @@ async function getContentPagesForNavigation() {
     });
   } catch (e) {
     console.log("Error", e);
-  } finally {
   }
 }
 async function getEmergencyNumber() {
   try {
     const res = await getEntries({ content_type: "notfallHotline" });
-    emergencyHotline.value = res[0].name;
+
+    emergencyHotline.value = res[0].notfallHotline;
   } catch (e) {
     console.log("Error", e);
-  } finally {
   }
 }
 

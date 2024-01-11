@@ -72,5 +72,6 @@ onMounted(async () => {
 .icon > img {
   height: 24px;
   width: 24px;
+  padding: 10px;
 }
 </style>
