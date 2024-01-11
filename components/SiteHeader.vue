@@ -36,9 +36,9 @@
         <n-alert :title="t('emergency')" type="warning">
           <n-el
             tag="a"
-            :href="`tel:${emergencyHotline}`"
+            :href="`tel:${props.emergencyHotline}`"
             style="text-decoration: none"
-            ><n-h4>{{ emergencyHotline }}</n-h4></n-el
+            ><n-h4>{{ props.emergencyHotline }}</n-h4></n-el
           >
         </n-alert>
       </div>
@@ -59,10 +59,14 @@ interface ContentPage {
   name: string;
   nameDe?: string;
 }
-const props = defineProps({ contentPages: Array<ContentPage> });
+const props = defineProps({
+  contentPages: Array<ContentPage>,
+  emergencyHotline: String,
+});
 const renderMenuLabel = (option: { label: string; path: any }) => {
   return option.label;
 };
+
 const mobileMenuOptionsRef = computed(() => {
   return [
     {
@@ -108,7 +112,6 @@ const mobileMenuValueRef = computed(() => {
 const mobileMenuOptions = mobileMenuOptionsRef;
 const mobileMenuValue = mobileMenuValueRef;
 
-const emergencyHotline = computed(() => "+49 160 9805 9698");
 function handleUpdateMobileMenu(
   key: String,
   { path }: { path: RouteLocationPathRaw }

@@ -97,6 +97,7 @@ const fetchContentful = async () => {
       const combinedTimetable = await getEntries({
         content_type: "zeitplan",
       });
+      const map = await getEntries({ content_type: "map" });
     } catch (e) {
       console.log(e);
     }
